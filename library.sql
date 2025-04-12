@@ -1,12 +1,12 @@
 # CREATING A DATABASE NAMED LIBRARY #
--- create database library
+ create database library
 
 # USING THE DATABASE #
--- use library;
+ use library;
 
 # CREATING TABLES FOR LIBRARY MANAGEMENT #
 # TABLE NAME: BOOKDETAILS [ TO STORE THE DETAILS OF THE BOOKS ] #
-/*
+
  create table bookdetails(
  bookid int auto_increment primary key,
  title varchar(200) not null,
@@ -15,11 +15,11 @@
  publishedyear int,
  copiesavailable int default 1
  );
- */
-  -- desc bookdetails;
+ 
+   desc bookdetails;
  
  # TABLE NAME: MEMBERS [ TO STORE THE DETAILS OF THE MEMBERS AT THE LIBRARY ] #
- /*
+ 
  create table members(
  memberid int auto_increment primary key,
  name varchar(100) not null,
@@ -28,11 +28,11 @@
  address text,
  membershipdate timestamp default current_timestamp
  );
- */
---  desc members; 
+ 
+  desc members; 
 
  # TABLE NAME: BOOKISSUE [ TO STORE THE DETAILS OF THE ISSUED BOOK ] #
- /*
+ 
  create table bookissue(
  bookissueid int auto_increment primary key,
  bookid int,
@@ -42,11 +42,11 @@
  foreign key ( bookid) references bookdetails(bookid),
  foreign key (memberid) references members(memberid)
  );
- */
+ 
  -- desc bookissue;
  
- # TABLE NAME : BOOKRETURN [ TO STORE THE DETAILS OF WHEN THE BOOK HAS BEEN RETURNED TO THE LIBRARY ]
- /*
+ # TABLE NAME : BOOKRETURN [ TO STORE THE DETAILS OF WHEN THE BOOK HAS BEEN RETURNED TO THE LIBRARY ]  #
+ 
  create table bookreturn(
  returnid int auto_increment primary key,
  bookissueid int,
@@ -54,22 +54,22 @@
  fine decimal(10,2) default 0,
  foreign key(bookissueid) references bookissue(bookissueid)
  );
- */
- -- desc bookreturn;
+ 
+  desc bookreturn;
  # INSERTING DATA OR ADDING A NEW BOOK  INTO THE BOOKDETAILS TABLES #
-  -- insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Shakespear's tales","shakespeare",4356754768,2009,10);
-  -- insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("The Merchant of venice","shakespeare",4356754769,2006,8);
-  -- insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("sql cookbook","Anthony Molinaro",4357754768,1998,15);
- --  insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Sql database","chris",435675456,2009,12);
-  -- insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Java: seventh edition","Helbert",2356754768,2000,11);
-  -- insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Fundementals of mathematical statistics","sultan chand",485867774768,1997,8);
-  -- select * from bookdetails
+   insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Shakespear's tales","shakespeare",4356754768,2009,10);
+   insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("The Merchant of venice","shakespeare",4356754769,2006,8);
+   insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("sql cookbook","Anthony Molinaro",4357754768,1998,15);
+   insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Sql database","chris",435675456,2009,12);
+   insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Java: seventh edition","Helbert",2356754768,2000,11);
+   insert into bookdetails (title, author,bookcode,publishedyear,copiesavailable) values ("Fundementals of mathematical statistics","sultan chand",485867774768,1997,8);
+   select * from bookdetails
   
   # INSERTING DATA OR REGISTERING A NEW MEMBER INTO THE MEMBERS TABLES #
-    -- insert into members(name, email, phone, address) values ("Mari", "mari4120@gmail.com",8825626263,"vinayagar temple, tirunelveli-06");
-     -- insert into members(name, email, phone, address) values ("Ramya", "ramya1930@gmail.com",638096543,"12,thachanallur street, tirunelveli-07");
-    -- insert into members(name, email, phone, address) values ("Vinay", "vinay4200@gmail.com",675365552,"13,sn high road, tirunelveli-06");
-    -- select * from members
+     insert into members(name, email, phone, address) values ("Mari", "mari4120@gmail.com",8825626263,"vinayagar temple, tirunelveli-06");
+      insert into members(name, email, phone, address) values ("Ramya", "ramya1930@gmail.com",638096543,"12,thachanallur street, tirunelveli-07");
+     insert into members(name, email, phone, address) values ("Vinay", "vinay4200@gmail.com",675365552,"13,sn high road, tirunelveli-06");
+     select * from members
     
     # UPDATING A BOOKS TABLE WHEN ISSUING A BOOK # 
     # TO ACHIEVE THAT WE NEED INSERT AND UPDATE QUERIES #
