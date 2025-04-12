@@ -74,23 +74,23 @@
     # UPDATING A BOOKS TABLE WHEN ISSUING A BOOK # 
     # TO ACHIEVE THAT WE NEED INSERT AND UPDATE QUERIES #
     # IN INSERT QUERY, THE DETAILS OF BOOKISSUE HAS BEEN STORED ALONG WITH THE DUE DATE USING INTERVAL #
-     -- insert into bookissue(bookid,memberid,duedate) values (2,1, date_add(now(), interval 1 minute));
-     -- select * from bookissue
+      insert into bookissue(bookid,memberid,duedate) values (2,1, date_add(now(), interval 1 minute));
+      select * from bookissue
     
     # TO UPDATE THE COPIES AFTER BOOK ISSUE #
-    -- update bookdetails set copiesavailable = copiesavailable - 1 where bookid = 1;
-      -- update bookdetails set copiesavailable = copiesavailable + 1 where bookid = 1;
- -- select * from bookdetails
+     update bookdetails set copiesavailable = copiesavailable - 1 where bookid = 1;
+       update bookdetails set copiesavailable = copiesavailable + 1 where bookid = 1;
+  select * from bookdetails
  
  # INSERT INTO BOOKRETURN TABLE WHEN THE BOOK IS RETURNING BY A MEMBER #
---  insert into bookreturn(bookissueid, fine) values ( 1, 0);
---  delete from bookissue where bookissueid = 1;
--- update bookdetails set copiesavailable = copiesavailable + 1 where bookid = 1;
-  -- select * from bookreturn
+  insert into bookreturn(bookissueid, fine) values ( 1, 0);
+  delete from bookissue where bookissueid = 1;
+ update bookdetails set copiesavailable = copiesavailable + 1 where bookid = 1;
+  select * from bookreturn
  
  # CALCULATING FINE AMOUNT USING CASE IF THE RETURNING OF A BOOK DELAYED AFTER THE DUEDATE #
  
- /*
+ 
  insert into bookreturn (bookissueid, returndate, fine)
  select bookissueid, current_timestamp(),
  case
@@ -99,16 +99,16 @@
 end
 from bookissue
 where bookissueid = 2;
-*/
--- select * from bookreturn
+
+ select * from bookreturn
 
 # MEMBER'S DETAILS ALONG WITH THE ISSUED BOOK DETAILS #
-  -- select members.memberid, members.name, members.email, bookdetails.title, bookdetails.author, bookissue.issuedate, bookissue.duedate from bookissue join members on bookissue.memberid = members.memberid join bookdetails on bookissue.bookid = bookdetails.bookid;
--- use library;
+   select members.memberid, members.name, members.email, bookdetails.title, bookdetails.author, bookissue.issuedate, bookissue.duedate from bookissue join members on bookissue.memberid = members.memberid join bookdetails on bookissue.bookid = bookdetails.bookid;
+ use library;
 
 # QUERY FOR VIEWING MEMBERS AND THE BOOKS THEY HAVE RETURNED #
--- use library;
-/*
+use library;
+
 select
  members.memberid,
  members.name,
@@ -116,21 +116,21 @@ select
  bookreturn.returndate,
  bookreturn.fine
  from bookreturn join bookissue on bookreturn.bookissueid = bookissue.bookissueid join bookdetails on bookissue.bookid = bookdetails.bookid join members on bookissue.memberid = members.memberid;
-*/
+
 
 
 # OVERDUE MEMBERS DETAILS #
-/*
+
 select 
 members.memberid,
 members.name,
 bookdetails.title,
 bookissue.duedate,
 timestampdiff(minute, bookissue.duedate, now()) as Overduedays from bookissue join members on bookissue.memberid = members.memberid join bookdetails on bookissue.bookid = bookdetails.bookid where bookissue.duedate < now();
-*/
+
 
 # QUERY TO RETRIEVE THE BOOK DETAILS THAT HAS BEEN TAKEN BY A SPECIFIC MEMBER #
-/*
+
 SELECT 
     Bookdetails.bookid, 
     Bookdetails.Title,
@@ -145,12 +145,12 @@ FROM bookissue
 JOIN Bookdetails ON bookissue.bookID = Bookdetails.BookID
 JOIN Members ON bookissue.MemberID = Members.MemberID 
 WHERE Members.Name = 'Mari';  
-*/
+
 
 
 # CREATING AN EMPLOYEE WHO WORKS IN THE LIBRARY #
  # TABLE NAME: employees [ TO STORE THE EMPLOYEES'S DETAILS WHO WORKS IN THE LIBRARY ] #
- /*
+ 
 CREATE TABLE employees (
     employeeid INT AUTO_INCREMENT PRIMARY KEY,
     empname VARCHAR(100) NOT NULL,
@@ -158,37 +158,37 @@ CREATE TABLE employees (
     empphone VARCHAR(15),
     position VARCHAR(50)
 );
-*/
+
 -- desc employees;
 # MODIFY THE BOOKISSUE TABLE TO LINK THE EMPLOYEE ID #
-/*
+
 ALTER TABLE bookissue ADD COLUMN employeeid INT;
 ALTER TABLE bookissue ADD FOREIGN KEY (employeeid) REFERENCES employees(employeeid);
-*/
+
  -- desc bookissue;
 
 
 # INSERT DATA INTO EMPLOYEES TABLE #
-/*
+
 INSERT INTO employees (empname, empemail, empphone, position) VALUES
 ('Alicent', 'alicent@gmail.com', '1234567890', 'Librarian'),
 ('Billy', 'bobbily@examplegmail.com', '9876543210', 'Assistant Librarian');
 -- select * from employees
-*/
+
 
 
 # INSERTING VALUES TO THE BOOKISSUE TABLE AND THE BOOKS'S BEEN ISSUED BY THE TWO DIFFERENT EMPLOYEES #
-/*
+
 INSERT INTO bookissue (bookid, memberid, issuedate, duedate, employeeid) 
 VALUES 
 (1, 2, NOW(), DATE_ADD(NOW(), INTERVAL 1 minute), 1),  
 (2, 3, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 2);   
 -- select * from members
 -- select * from bookissue
-*/
+
 
 # QUERY TO GET MEMBERS WHO HAVE TAKEN BOOKS FROM A PARTICULAR EMPLOYEE #
-/*
+
 SELECT 
     Members.MemberID, Members.Name , 
     Bookdetails.Title , 
@@ -199,10 +199,10 @@ JOIN Members ON bookissue.MemberID = Members.MemberID
 JOIN Bookdetails ON bookissue.BookID = Bookdetails.BookID
 JOIN Employees ON bookissue.EmployeeID = Employees.EmployeeID
 WHERE Employees.empname = 'Alicent';  
-*/
+
 
  # QUERY TO COUNT BOOKS ISSUED BY EACH EMPLOYEE #
- /*
+ 
  SELECT 
     Employees.empName AS EmployeeName, 
     COUNT(bookissue.bookissueid) AS TotalBooksIssued
@@ -210,16 +210,16 @@ FROM bookissue
 JOIN Employees ON bookissue.EmployeeID = Employees.EmployeeID
 GROUP BY Employees.EmployeeID;
 
-*/
 
-/*
+
+
 ALTER TABLE bookreturn ADD COLUMN employeeid INT;
 ALTER TABLE bookreturn ADD FOREIGN KEY (employeeid) REFERENCES Employees(employeeid);
-*/
+
 
 # QUERY TO INSERT DATAS INTO THE BOOKRETURN TABLE AS WELL AS THE FINE COLLECTION TO KNOW THAT THE BOOK HAS BEEN RETURNED TO WHICH SPECIFIC EMPLOYEE #
 
-/*
+
 insert into bookreturn (bookissueid, returndate, fine, employeeid)
  select bookissueid, current_timestamp(),
  case
@@ -228,12 +228,12 @@ insert into bookreturn (bookissueid, returndate, fine, employeeid)
 end, 2 
 from bookissue
 where bookissueid = 7;
-*/
+
 -- select * from bookreturn
 
 
 # QUERY FOR EMPLOYEE DETAILS WHO COLLECTED THE FINE #
-/*
+
 SELECT 
     Employees.EmployeeID, Employees.empName AS EmployeeName, 
     Employees.empEmail, Employees.empPhone, 
@@ -243,7 +243,7 @@ JOIN Employees ON bookreturn.employeeid = employees.employeeid
 where bookreturn.fine>0;
 
  -- select * from bookreturn;
- */
+ 
  -- delete from bookissue where bookissueid = 7 and fine > 3000
 
 
